@@ -10,7 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
     "nuxt": "^3.12.4",
-    "vue": "latest"
+    "nuxt-auth-sanctum": "^0.4.4",
+    "nuxt-graphql-request": "^8.1.0",
+    "nuxt-mdi": "^2.1.1",
+    "vue": "latest",
+    "vuetify-nuxt-module": "^0.16.1"
   }
 }
