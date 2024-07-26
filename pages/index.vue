@@ -2,6 +2,7 @@
     import { maxLen, required } from '~/utils/validator.js';
     import { ACTIVE, DONE } from '~/enums/status.js';
     import task from '~/services/api/task.js';
+    import auth from '~/services/api/auth.js';
 
     // refs
     const titleRef = ref()
@@ -32,8 +33,19 @@
     const openTodosCount = computed(() => todos.value.filter(todo => todo.status === ACTIVE)?.length)
     const doneTodosCount = computed(() => todos.value.filter(todo => todo.status === DONE)?.length)
 
-    function logout () {
-        useRouter().push({ path: '/login' })
+    async function logout () {
+        try {
+            const response = await auth.logout();
+
+            if (response) {
+                // clear state
+                clearNuxtState(['token', 'user', 'authenticated'])
+
+                useRouter().push({path: '/login'})
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     async function handleSave () {
@@ -208,6 +220,12 @@
 
     refreshTasksList()
 
+    definePageMeta({
+        middleware: [
+            'auth'
+        ]
+    })
+
     useHead({
         title: 'Todo List | Dashboard',
     })
@@ -296,34 +314,44 @@
                     prepend-icon="mdi-trash-can"
                     rounded="xs"
                     color="red"
-                    @click="bulkDeleteTasks"
+                    @click="bulkDeleteTasks()"
                 >
                     Remove Tasks
                 </v-btn>
             </v-card-title>
 
             <v-card-item>
-                <div class="flex justify-end h-[50px]">
-                    <v-switch
-                        v-model="showActiveOnly"
-                        label="Show Done Only"
-                        color="primary"
-                        class="mt-[-10px]"
-                    />
+                <div class="flex h-[50px]">
+                    <h2 class="font-bold text-lg text-gray-500">Todo List</h2>
 
-                    <v-btn
-                        prepend-icon="mdi-refresh"
-                        class="ml-5"
-                        @click="refreshTasksList"
-                    >
-                        Refresh
-                    </v-btn>
+                    <div class="ml-auto flex">
+                        <v-switch
+                            v-model="showActiveOnly"
+                            label="Show Done Only"
+                            color="primary"
+                            class="mt-[-10px]"
+                        />
+
+                        <v-btn
+                            prepend-icon="mdi-refresh"
+                            class="ml-5"
+                            @click="refreshTasksList"
+                        >
+                            Refresh
+                        </v-btn>
+                    </div>
                 </div>
 
                 <div>
-                    <h2 class="font-bold text-lg text-gray-500">Todo List</h2>
+                    <div
+                        v-if="!filteredTodos.length"
+                        class="min-h-[300px] flex items-center justify-center text-gray-500"
+                    >
+                        No todos to display
+                    </div>
 
                     <v-virtual-scroll
+                        v-else
                         :height="300"
                         :items="filteredTodos"
                     >
@@ -342,11 +370,13 @@
                                     >
                                         <v-card-item class="!py-1">
                                             <div class="flex items-center">
-                                                <div class="font-gray-500 todo-title">
+                                                <div class="font-gray-500 todo-title w-full">
                                                     {{ item.title }}
                                                 </div>
 
-                                                <div class="ml-auto w-[200px]">
+                                                <v-spacer />
+
+                                                <div class="flex">
                                                     <v-btn
                                                         icon="mdi-check-circle"
                                                         size="small"

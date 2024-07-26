@@ -1,4 +1,5 @@
 import { gql } from 'nuxt-graphql-request/utils';
+import { authedClient } from '~/services/api/client.js';
 
 export default {
     /**
@@ -16,10 +17,7 @@ export default {
                 }
             }`;
 
-        const $nuxtApp = useNuxtApp()
-        $nuxtApp.$graphql.task.setHeader('authorization', 'Bearer 17|AyglZIIicswzj1U6u9oB1GzW7IjHlbAOa8vHoxMh13ce6fb9')
-
-        return await $nuxtApp.$graphql.task.request(query);
+        return await authedClient().$graphql.task.request(query);
     },
 
     /**
@@ -40,10 +38,7 @@ export default {
                 }
             }`;
 
-        const $nuxtApp = useNuxtApp()
-        $nuxtApp.$graphql.task.setHeader('authorization', 'Bearer 17|AyglZIIicswzj1U6u9oB1GzW7IjHlbAOa8vHoxMh13ce6fb9')
-
-        return await $nuxtApp.$graphql.task.request(query);
+        return await authedClient().$graphql.task.request(query);
     },
 
     /**
@@ -68,10 +63,7 @@ export default {
                 }
             }`;
 
-        const $nuxtApp = useNuxtApp()
-        $nuxtApp.$graphql.task.setHeader('authorization', 'Bearer 17|AyglZIIicswzj1U6u9oB1GzW7IjHlbAOa8vHoxMh13ce6fb9')
-
-        return await $nuxtApp.$graphql.task.request(query);
+        return await authedClient().$graphql.task.request(query);
     },
 
     /**
@@ -90,10 +82,7 @@ export default {
                 }
             }`;
 
-        const $nuxtApp = useNuxtApp()
-        $nuxtApp.$graphql.task.setHeader('authorization', 'Bearer 17|AyglZIIicswzj1U6u9oB1GzW7IjHlbAOa8vHoxMh13ce6fb9')
-
-        return await $nuxtApp.$graphql.task.request(query);
+        return await authedClient().$graphql.task.request(query);
     },
 
     /**
@@ -103,7 +92,6 @@ export default {
      */
     async bulkDeleteTasks (ids) {
         ids = ids.reduce((acc, cur) => acc += `${cur}, `, '')
-        console.log(ids)
         const query = gql`
             mutation {
                 bulkDeleteTask (ids: [${ids}]) {
@@ -112,9 +100,6 @@ export default {
                 }
             }`;
 
-        const $nuxtApp = useNuxtApp()
-        $nuxtApp.$graphql.task.setHeader('authorization', 'Bearer 17|AyglZIIicswzj1U6u9oB1GzW7IjHlbAOa8vHoxMh13ce6fb9')
-
-        return await $nuxtApp.$graphql.task.request(query);
+        return await authedClient().$graphql.task.request(query);
     }
 }

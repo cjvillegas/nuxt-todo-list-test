@@ -18,6 +18,13 @@
             loading.value = true
             const data = await auth.login(form.value.username, form.value.password);
 
+            // store the token in the session storage
+            sessionStorage.setItem('token', data.login.token)
+
+            useState('token', () => data.login.token)
+            useState('user', () => data.login.user)
+            useState('authenticated', () => true)
+
             // navigate to the home screen on successful login
             useRouter().push({ path: '/' })
         } catch (error) {
