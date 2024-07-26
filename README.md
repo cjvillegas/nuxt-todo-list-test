@@ -1,8 +1,8 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Nuxt Todo List
 
 ## Setup
+
+Pull the repo to your local environment and install all dependencies based on your preferred installer.
 
 Make sure to install the dependencies:
 
@@ -37,25 +37,6 @@ yarn dev
 # bun
 bun run dev
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
 Locally preview production build:
 
 ```bash
@@ -71,5 +52,3 @@ yarn preview
 # bun
 bun run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
